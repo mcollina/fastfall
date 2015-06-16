@@ -1,4 +1,5 @@
-# fastfall
+# fastfall&nbsp;&nbsp;[![Build Status](https://travis-ci.org/mcollina/fastfall.svg?branch=master)](https://travis-ci.org/mcollina/fastfall)
+
 
 call your callbacks in a waterfall, without overhead
 
