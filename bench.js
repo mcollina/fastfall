@@ -40,12 +40,12 @@ function somethingImmediate () {
   }
 }
 
-function somethingB (arg, cb) {
-  setImmediate(cb, null, arg)
+function somethingB (cb) {
+  setImmediate(cb)
 }
 
 function somethingA (cb) {
-  setImmediate(cb, null, 'a')
+  setImmediate(cb)
 }
 
 var toCall = [somethingA, somethingB, somethingB]

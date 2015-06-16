@@ -43,7 +43,7 @@ function fastfall (template) {
 
     current.list = template
 
-    var args = new Array(arguments.length)
+    var args = []
     var i
 
     args[0] = null // first arg is the error
@@ -73,14 +73,14 @@ function Holder (release) {
       return that.callback(arguments[0])
     }
 
-    var args = new Array(arguments.length || 1)
+    var args = []
     var i = 0
 
     if (that.count < that.list.length) {
       for (i = 1; i < arguments.length; i++) {
         args[i - 1] = arguments[i]
       }
-      args[args.length - 1] = work
+      args[args.length] = work
       that.list[that.count++].apply(null, args)
     } else {
       for (i = 0; i < arguments.length; i++) {
