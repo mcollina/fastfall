@@ -4,9 +4,10 @@ call your callbacks in a waterfall, without overhead
 
 Benchmark for doing 3 calls `setImmediate` 100 thousands times:
 
-* non-reusable setImmediate: 562ms
-* `async.waterfall`: 2347ms
-* `fastfall`: 29ms
+* non-reusable setImmediate: 559ms
+* `async.waterfall`: 2193ms
+* `fastfall`: 778ms
+* `fastfall` compiled: 782ms
 
 These benchmarks where taken via `bench.js` on iojs 2.2.1, on a MacBook
 Pro Retina 2014, on battery, on a plane to London.

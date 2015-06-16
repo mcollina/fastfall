@@ -68,6 +68,8 @@ function Holder (release) {
         args[i] = arguments[i]
       }
       that.callback.apply(null, args)
+      that.list = empty
+      that.count = 0
       release(that)
     }
   }
