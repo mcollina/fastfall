@@ -82,3 +82,36 @@ test('compiles a reusable fall', function (t) {
     t.equal(c, 'c', 'result function 4th arg matches')
   })
 })
+
+test('set this', function (t) {
+  t.plan(2)
+
+  var that = {}
+  var fall = fastfall(that)
+
+  fall([
+    function a (cb) {
+      t.equal(this, that, 'this is set')
+      cb(null, 'a')
+    }
+  ], function result (err, a, b, c) {
+    t.error(err, 'no error')
+  })
+})
+
+test('set this in compiled mode', function (t) {
+  t.plan(3)
+
+  var that = {}
+  var fall = fastfall(that, [
+    function a (arg, cb) {
+      t.equal(this, that, 'this is set')
+      cb(null, arg)
+    }
+  ])
+
+  fall(42, function result (err, a, b, c) {
+    t.error(err, 'no error')
+    t.equal(a, 42, 'result function 2nd arg matches')
+  })
+})

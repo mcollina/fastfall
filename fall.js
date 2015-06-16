@@ -2,9 +2,14 @@
 
 var empty = []
 
-function fastfall (template) {
+function fastfall (context, template) {
 
-  var head = new Holder(release)
+  if (Array.isArray(context)) {
+    template = context
+    context = null
+  }
+
+  var head = new Holder(context, release)
   var tail = head
 
   return template ? compiled : fall
@@ -15,7 +20,7 @@ function fastfall (template) {
     if (holder.next) {
       head = holder.next
     } else {
-      head = new Holder(release)
+      head = new Holder(context, release)
       tail = head
     }
 
@@ -60,7 +65,7 @@ function fastfall (template) {
 
 function noop () {}
 
-function Holder (release) {
+function Holder (context, release) {
   this.list = empty
   this.callback = noop
   this.count = 0
@@ -81,12 +86,12 @@ function Holder (release) {
         args[i - 1] = arguments[i]
       }
       args[args.length] = work
-      that.list[that.count++].apply(null, args)
+      that.list[that.count++].apply(context, args)
     } else {
       for (i = 0; i < arguments.length; i++) {
         args[i] = arguments[i]
       }
-      that.callback.apply(null, args)
+      that.callback.apply(context, args)
       that.list = empty
       that.count = 0
       release(that)
