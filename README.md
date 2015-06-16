@@ -48,11 +48,60 @@ fall([
   })
 ```
 
+You can also set `this` in the functions:
+
+```js
+var that = { hello: 'world' }
+var fall = require('./')(that)
+
+fall([
+  function a (cb) {
+    console.log(this)
+    console.log('called a')
+    cb(null, 'a')
+  },
+  function b (a, cb) {
+    console.log('called b with:', a)
+    cb(null, 'a', 'b')
+  },
+  function c (a, b, cb) {
+    console.log('called c with:', a, b)
+    cb(null, 'a', 'b', 'c')
+  }], function result (err, a, b, c) {
+    console.log('result arguments', arguments)
+  })
+```
+
 ### Compile a waterfall
 
 ```js
 var fall = require('./')([
   function a (arg, cb) {
+    console.log('called a')
+    cb(null, arg)
+  },
+  function b (a, cb) {
+    console.log('called b with:', a)
+    cb(null, 'a', 'b')
+  },
+  function c (a, b, cb) {
+    console.log('called c with:', a, b)
+    cb(null, 'a', 'b', 'c')
+  }])
+
+// a compiled fall supports arguments too!
+fall(42, function result (err, a, b, c) {
+  console.log('result arguments', arguments)
+})
+```
+
+You can set `this` by doing:
+
+```js
+var that = { hello: 'world' }
+var fall = require('./')(that, [
+  function a (arg, cb) {
+    console.log('this is', this)
     console.log('called a')
     cb(null, arg)
   },
