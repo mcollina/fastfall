@@ -20,6 +20,12 @@ use [fastq](http://npm.im/fastq).
 
 [![js-standard-style](https://raw.githubusercontent.com/feross/standard/master/badge.png)](https://github.com/feross/standard)
 
+## Install
+
+```
+npm install fastfall --save
+```
+
 ## Usage
 
 ```js
