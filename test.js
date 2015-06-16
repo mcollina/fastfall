@@ -51,3 +51,34 @@ test('call with error', function (t) {
     t.notOk(b, 'no 3rd arg')
   })
 })
+
+test('compiles a reusable fall', function (t) {
+  t.plan(10)
+
+  var fall = fastfall([
+    function a (arg, cb) {
+      cb(null, arg)
+    },
+    function b (a, cb) {
+      cb(null, a, 'b')
+    },
+    function c (a, b, cb) {
+      t.equal(b, 'b', 'third function 2nd arg matches')
+      cb(null, a, 'b', 'c')
+    }
+  ])
+
+  fall(42, function result (err, a, b, c) {
+    t.error(err, 'no error')
+    t.equal(a, 42, 'result function 2nd arg matches')
+    t.equal(b, 'b', 'result function 3rd arg matches')
+    t.equal(c, 'c', 'result function 4th arg matches')
+  })
+
+  fall(24, function result (err, a, b, c) {
+    t.error(err, 'no error')
+    t.equal(a, 24, 'result function 2nd arg matches')
+    t.equal(b, 'b', 'result function 3rd arg matches')
+    t.equal(c, 'c', 'result function 4th arg matches')
+  })
+})

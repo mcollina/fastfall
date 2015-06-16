@@ -2,12 +2,12 @@
 
 var empty = []
 
-function fastfall () {
+function fastfall (template) {
 
   var head = new Holder(release)
   var tail = head
 
-  return fall
+  return template ? compiled : fall
 
   function next () {
     var holder = head
@@ -36,6 +36,25 @@ function fastfall () {
   function release (holder) {
     tail.next = holder
     tail = holder
+  }
+
+  function compiled () {
+    var current = next()
+
+    current.list = template
+
+    var args = new Array(arguments.length)
+    var i
+
+    args[0] = null // first arg is the error
+
+    for (i = 0; i < arguments.length - 1; i++) {
+      args[i + 1] = arguments[i]
+    }
+
+    current.callback = arguments[i]
+
+    current.work.apply(null, args)
   }
 }
 

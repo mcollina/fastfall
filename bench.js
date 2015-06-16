@@ -57,13 +57,16 @@ function benchFastFall (done) {
   fall(toCall, done)
 }
 
+var compiled = require('./')(toCall)
+
 function noop () {}
 
 function run (next) {
   series(null, bench, [
     benchAsyncWaterfall,
     benchFastFall,
-    benchSetImmediate
+    benchSetImmediate,
+    compiled
   ], next || noop)
 }
 
