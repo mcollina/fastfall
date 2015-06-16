@@ -68,7 +68,7 @@ function Holder (release) {
         args[i] = arguments[i]
       }
       that.callback.apply(null, args)
-      release()
+      release(that)
     }
   }
 }
