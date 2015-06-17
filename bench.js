@@ -2,6 +2,7 @@ var max = 100000
 var series = require('fastseries')()
 var async = require('async')
 var fall = require('./')()
+var runWaterfall = require('run-waterfall')
 
 function bench (func, done) {
   var key = max + '*' + func.name
@@ -57,6 +58,10 @@ function benchFastFall (done) {
   fall(toCall, done)
 }
 
+function benchRunWaterFall (done) {
+  runWaterfall(toCall, done)
+}
+
 var compiled = require('./')(toCall)
 
 function noop () {}
@@ -65,6 +70,7 @@ function run (next) {
   series(null, bench, [
     benchAsyncWaterfall,
     benchFastFall,
+    benchRunWaterFall,
     benchSetImmediate,
     compiled
   ], next || noop)
