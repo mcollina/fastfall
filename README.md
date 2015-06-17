@@ -75,6 +75,7 @@ fall([
 
 You can also set `this` when you run a task:
 
+```js
 var that = { hello: 'world' }
 var fall = require('fastfall')()
 
@@ -94,6 +95,7 @@ fall(that, [
   }], function result (err, a, b, c) {
     console.log('result arguments', arguments)
   })
+```
 
 ### Compile a waterfall
 
