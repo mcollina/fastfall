@@ -134,3 +134,21 @@ test('set this for a normal fall', function (t) {
     t.equal(a, 'a', 'result function 2nd arg matches')
   })
 })
+
+test('use the this of the called object in compiled mode', function (t) {
+  t.plan(4)
+
+  var that = {}
+  var fall = fastfall([
+    function a (arg, cb) {
+      t.equal(this, that, 'this is set')
+      cb(null, arg)
+    }
+  ])
+
+  fall.call(that, 42, function result (err, a, b, c) {
+    t.error(err, 'no error')
+    t.equal(a, 42, 'result function 2nd arg matches')
+    t.equal(this, that, 'this is set')
+  })
+})

@@ -64,7 +64,7 @@ function fastfall (context, template) {
       args[i + 1] = arguments[i]
     }
 
-    current.context = context
+    current.context = this || context
     current.callback = arguments[i] || noop
 
     current.work.apply(null, args)
