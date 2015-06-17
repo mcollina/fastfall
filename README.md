@@ -100,7 +100,7 @@ fall(that, [
 ### Compile a waterfall
 
 ```js
-var fall = require('./')([
+var fall = require('fastfall')([
   function a (arg, cb) {
     console.log('called a')
     cb(null, arg)
@@ -124,7 +124,7 @@ You can set `this` by doing:
 
 ```js
 var that = { hello: 'world' }
-var fall = require('./')(that, [
+var fall = require('fastfall')(that, [
   function a (arg, cb) {
     console.log('this is', this)
     console.log('called a')
@@ -141,6 +141,32 @@ var fall = require('./')(that, [
 
 // a compiled fall supports arguments too!
 fall(42, function result (err, a, b, c) {
+  console.log('result arguments', arguments)
+})
+```
+
+or you can simply attach it to an object:
+
+```js
+var that = { hello: 'world' }
+that.doSomething = require('fastfall')([
+  function a (arg, cb) {
+    console.log('this is', this)
+    console.log('called a')
+    cb(null, arg)
+  },
+  function b (a, cb) {
+    console.log('called b with:', a)
+    cb(null, 'a', 'b')
+  },
+  function c (a, b, cb) {
+    console.log('called c with:', a, b)
+    cb(null, 'a', 'b', 'c')
+  }])
+
+// a compiled fall supports arguments too!
+that.doSomething(42, function result (err, a, b, c) {
+  console.log('this is', this)
   console.log('result arguments', arguments)
 })
 ```
