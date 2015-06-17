@@ -9,7 +9,7 @@ function fastfall (context, template) {
     context = null
   }
 
-  var head = new Holder(context, release)
+  var head = new Holder(release)
   var tail = head
 
   return template ? compiled : fall
@@ -20,7 +20,7 @@ function fastfall (context, template) {
     if (holder.next) {
       head = holder.next
     } else {
-      head = new Holder(context, release)
+      head = new Holder(release)
       tail = head
     }
 
@@ -29,11 +29,18 @@ function fastfall (context, template) {
     return holder
   }
 
-  function fall (list, done) {
+  function fall () {
     var current = next()
 
-    current.list = list
-    current.callback = done
+    if (arguments.length === 3) {
+      current.context = arguments[0]
+      current.list = arguments[1]
+      current.callback = arguments[2] || noop
+    } else {
+      current.context = context
+      current.list = arguments[0]
+      current.callback = arguments[1] || noop
+    }
 
     current.work()
   }
@@ -57,7 +64,8 @@ function fastfall (context, template) {
       args[i + 1] = arguments[i]
     }
 
-    current.callback = arguments[i]
+    current.context = context
+    current.callback = arguments[i] || noop
 
     current.work.apply(null, args)
   }
@@ -65,10 +73,11 @@ function fastfall (context, template) {
 
 function noop () {}
 
-function Holder (context, release) {
+function Holder (release) {
   this.list = empty
   this.callback = noop
   this.count = 0
+  this.context = undefined
 
   var that = this
 
@@ -86,12 +95,13 @@ function Holder (context, release) {
         args[i - 1] = arguments[i]
       }
       args[args.length] = work
-      that.list[that.count++].apply(context, args)
+      that.list[that.count++].apply(that.context, args)
     } else {
       for (i = 0; i < arguments.length; i++) {
         args[i] = arguments[i]
       }
-      that.callback.apply(context, args)
+      that.callback.apply(that.context, args)
+      that.context = undefined
       that.list = empty
       that.count = 0
       release(that)

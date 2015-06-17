@@ -30,7 +30,7 @@ npm install fastfall --save
 ## Usage
 
 ```js
-var fall = require('./')()
+var fall = require('fastfall')()
 
 fall([
   function a (cb) {
@@ -49,11 +49,11 @@ fall([
   })
 ```
 
-You can also set `this` in the functions:
+You can also set `this` when you create a fall:
 
 ```js
 var that = { hello: 'world' }
-var fall = require('./')(that)
+var fall = require('fastfall')(that)
 
 fall([
   function a (cb) {
@@ -72,6 +72,28 @@ fall([
     console.log('result arguments', arguments)
   })
 ```
+
+You can also set `this` when you run a task:
+
+var that = { hello: 'world' }
+var fall = require('fastfall')()
+
+fall(that, [
+  function a (cb) {
+    console.log(this)
+    console.log('called a')
+    cb(null, 'a')
+  },
+  function b (a, cb) {
+    console.log('called b with:', a)
+    cb(null, 'a', 'b')
+  },
+  function c (a, b, cb) {
+    console.log('called c with:', a, b)
+    cb(null, 'a', 'b', 'c')
+  }], function result (err, a, b, c) {
+    console.log('result arguments', arguments)
+  })
 
 ### Compile a waterfall
 

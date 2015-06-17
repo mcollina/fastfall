@@ -100,7 +100,7 @@ test('set this', function (t) {
 })
 
 test('set this in compiled mode', function (t) {
-  t.plan(3)
+  t.plan(4)
 
   var that = {}
   var fall = fastfall(that, [
@@ -113,5 +113,24 @@ test('set this in compiled mode', function (t) {
   fall(42, function result (err, a, b, c) {
     t.error(err, 'no error')
     t.equal(a, 42, 'result function 2nd arg matches')
+    t.equal(this, that, 'this is set')
+  })
+})
+
+test('set this for a normal fall', function (t) {
+  t.plan(4)
+
+  var that = {}
+  var fall = fastfall()
+
+  fall(that, [
+    function a (cb) {
+      t.equal(this, that, 'this is set')
+      cb(null, 'a')
+    }
+  ], function result (err, a) {
+    t.error(err, 'no error')
+    t.equal(this, that, 'this is set')
+    t.equal(a, 'a', 'result function 2nd arg matches')
   })
 })
