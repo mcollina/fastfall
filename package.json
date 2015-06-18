@@ -1,6 +1,6 @@
 {
   "name": "fastfall",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "call your callbacks in a waterfall, at speed",
   "main": "fall.js",
   "scripts": {
