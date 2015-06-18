@@ -152,3 +152,18 @@ test('use the this of the called object in compiled mode', function (t) {
     t.equal(this, that, 'this is set')
   })
 })
+
+test('support errors in compiled mode', function (t) {
+  t.plan(2)
+
+  var fall = fastfall([
+    function a (arg, cb) {
+      t.pass('function is called')
+      cb(new Error('muahaha'), arg)
+    }
+  ])
+
+  fall(42, function result (err) {
+    t.ok(err, 'error is forwarded')
+  })
+})

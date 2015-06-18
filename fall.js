@@ -82,9 +82,8 @@ function Holder (release) {
   var that = this
 
   this.work = function work () {
-    if (arguments[0]) {
-      // handle error
-      return that.callback(arguments[0])
+    if (arguments.length > 0 && arguments[0]) {
+      return that.callback.call(that.context, arguments[0])
     }
 
     var args = []
