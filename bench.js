@@ -1,6 +1,8 @@
 var max = 100000
 var series = require('fastseries')()
 var async = require('async')
+var insync = require('insync')
+var neoAsync = require('neo-async')
 var fall = require('./')()
 var runWaterfall = require('run-waterfall')
 
@@ -62,6 +64,14 @@ function benchRunWaterFall (done) {
   runWaterfall(toCall, done)
 }
 
+function benchInsync (done) {
+  insync.waterfall(toCall, done)
+}
+
+function benchNeoAsync (done) {
+  neoAsync.waterfall(toCall, done)
+}
+
 var compiled = require('./')(toCall)
 
 function noop () {}
@@ -69,6 +79,8 @@ function noop () {}
 function run (next) {
   series(null, bench, [
     benchAsyncWaterfall,
+    benchInsync,
+    benchNeoAsync,
     benchFastFall,
     benchRunWaterFall,
     benchSetImmediate,

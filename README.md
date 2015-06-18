@@ -5,11 +5,15 @@ call your callbacks in a waterfall, without overhead
 
 Benchmark for doing 3 calls `setImmediate` 100 thousands times:
 
-* non-reusable setImmediate: 531ms
-* [async.waterfall](https://github.com/caolan/async#waterfall): 1629ms
-* [run-waterfall](http://npm.im/run-waterfall): 1282ms
-* `fastfall`: 618ms
-* `fastfall` compiled: 614ms
+* non-reusable setImmediate: 553ms
+* [async.waterfall](https://github.com/caolan/async#waterfall): 1718ms
+* [run-waterfall](http://npm.im/run-waterfall): 1321ms
+* [insync.wasterfall](https://www.npmjs.com/package/insync#waterfall):
+  2044ms
+* [neo-async.wasterfall](http://suguru03.github.io/neo-async/doc/async.waterfall.html):
+  600ms
+* `fastfall`: 585ms
+* `fastfall` compiled: 603ms
 
 These benchmarks where taken via `bench.js` on iojs 2.2.1, on a MacBook
 Pro Retina 2014, on battery, on a plane to London.
