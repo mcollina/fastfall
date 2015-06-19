@@ -5,6 +5,7 @@ var insync = require('insync')
 var neoAsync = require('neo-async')
 var fall = require('./')()
 var runWaterfall = require('run-waterfall')
+var waterfallize = require('waterfallize')
 
 function bench (func, done) {
   var key = max + '*' + func.name
@@ -60,6 +61,15 @@ function benchFastFall (done) {
   fall(toCall, done)
 }
 
+function benchWaterfallize (done) {
+  var next = waterfallize()
+
+  next(toCall[0])
+  next(toCall[1])
+  next(toCall[2])
+  next(done)
+}
+
 function benchRunWaterFall (done) {
   runWaterfall(toCall, done)
 }
@@ -84,6 +94,7 @@ function run (next) {
     benchFastFall,
     benchRunWaterFall,
     benchSetImmediate,
+    benchWaterfallize,
     compiled
   ], next || noop)
 }
