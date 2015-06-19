@@ -55,7 +55,7 @@ function fastfall (context, template) {
 
     current.list = template
 
-    var args = []
+    var args = new Array(arguments.length)
     var i
 
     args[0] = null // first arg is the error
