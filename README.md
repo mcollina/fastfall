@@ -12,6 +12,7 @@ Benchmark for doing 3 calls `setImmediate` 100 thousands times:
   2044ms
 * [neo-async.wasterfall](http://suguru03.github.io/neo-async/doc/async.waterfall.html):
   600ms
+* [waterfallize](http://npm.im/waterfallize): 907ms
 * `fastfall`: 585ms
 * `fastfall` compiled: 603ms
 
