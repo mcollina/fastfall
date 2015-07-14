@@ -1,30 +1,11 @@
 var max = 100000
-var series = require('fastseries')()
 var async = require('async')
 var insync = require('insync')
 var neoAsync = require('neo-async')
 var fall = require('./')()
 var runWaterfall = require('run-waterfall')
 var waterfallize = require('waterfallize')
-
-function bench (func, done) {
-  var key = max + '*' + func.name
-  var count = -1
-
-  console.time(key)
-  end()
-
-  function end () {
-    if (++count < max) {
-      func(end)
-    } else {
-      console.timeEnd(key)
-      if (done) {
-        done()
-      }
-    }
-  }
-}
+var bench = require('fastbench')
 
 var nextDone
 var nextCount
@@ -84,19 +65,15 @@ function benchNeoAsync (done) {
 
 var compiled = require('./')(toCall)
 
-function noop () {}
-
-function run (next) {
-  series(null, bench, [
-    benchAsyncWaterfall,
-    benchInsync,
-    benchNeoAsync,
-    benchFastFall,
-    benchRunWaterFall,
-    benchSetImmediate,
-    benchWaterfallize,
-    compiled
-  ], next || noop)
-}
+var run = bench([
+  benchAsyncWaterfall,
+  benchInsync,
+  benchNeoAsync,
+  benchFastFall,
+  benchRunWaterFall,
+  benchSetImmediate,
+  benchWaterfallize,
+  compiled
+], max)
 
 run(run)

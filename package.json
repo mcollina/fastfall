@@ -30,6 +30,7 @@
   "homepage": "https://github.com/mcollina/fastfall#readme",
   "devDependencies": {
     "async": "^1.0.0",
+    "fastbench": "^1.0.0",
     "faucet": "0.0.1",
     "insync": "^1.0.0",
     "neo-async": "^1.2.1",
