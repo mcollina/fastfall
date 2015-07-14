@@ -176,6 +176,30 @@ that.doSomething(42, function result (err, a, b, c) {
 })
 ```
 
+## API
+
+### fastfall([this], [functions])
+
+Creates a `fall`, it can either be pre-filled with a `this` value
+and an array of functions.
+
+If there is no list of functions, [a not-compiled fall](#not-compiled)
+is returned, if there is a list of function [a compiled fall](#compiled)
+is returned.
+
+<a name="not-compiled"></a>
+### fall([this], functions, [done])
+
+Calls the functions in a waterfall, forwarding the arguments from one to
+another. Calls `done` when it has finished.
+
+<a name="compiled"></a>
+### fall(args..., [done])
+
+Calls the compiled functions in a waterfall, forwarding the arguments from one to
+another. Additionally, a user can specify some arguments for the first
+function, too. Calls `done` when it has finished.
+
 ## License
 
-ISC
+MIT

@@ -23,7 +23,7 @@
     "callback"
   ],
   "author": "Matteo Collina <hello@matteocollina.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mcollina/fastfall/issues"
   },
