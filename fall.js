@@ -3,7 +3,6 @@
 var empty = []
 
 function fastfall (context, template) {
-
   if (Array.isArray(context)) {
     template = context
     context = null
