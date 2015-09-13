@@ -39,5 +39,8 @@
     "standard": "^5.0.0",
     "tape": "^4.0.0",
     "waterfallize": "^1.0.0"
+  },
+  "dependencies": {
+    "reusify": "^1.0.0"
   }
 }

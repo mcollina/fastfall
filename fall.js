@@ -1,5 +1,6 @@
 'use strict'
 
+var reusify = require('reusify')
 var empty = []
 
 function fastfall (context, template) {
@@ -8,28 +9,13 @@ function fastfall (context, template) {
     context = null
   }
 
-  var head = new Holder(release)
-  var tail = head
+  var queue = reusify(Holder)
 
   return template ? compiled : fall
 
-  function next () {
-    var holder = head
-
-    if (holder.next) {
-      head = holder.next
-    } else {
-      head = new Holder(release)
-      tail = head
-    }
-
-    holder.next = null
-
-    return holder
-  }
-
   function fall () {
-    var current = next()
+    var current = queue.get()
+    current.release = release
 
     if (arguments.length === 3) {
       current.context = arguments[0]
@@ -45,12 +31,12 @@ function fastfall (context, template) {
   }
 
   function release (holder) {
-    tail.next = holder
-    tail = holder
+    queue.release(holder)
   }
 
   function compiled () {
-    var current = next()
+    var current = queue.get()
+    current.release = release
 
     current.list = template
 
@@ -72,11 +58,12 @@ function fastfall (context, template) {
 
 function noop () {}
 
-function Holder (release) {
+function Holder () {
   this.list = empty
   this.callback = noop
   this.count = 0
   this.context = undefined
+  this.release = noop
 
   var that = this
 
@@ -102,7 +89,7 @@ function Holder (release) {
       that.context = undefined
       that.list = empty
       that.count = 0
-      release(that)
+      that.release(that)
     }
   }
 }
