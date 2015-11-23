@@ -5,19 +5,19 @@ call your callbacks in a waterfall, without overhead
 
 Benchmark for doing 3 calls `setImmediate` 100 thousands times:
 
-* non-reusable setImmediate: 553ms
-* [async.waterfall](https://github.com/caolan/async#waterfall): 1718ms
-* [run-waterfall](http://npm.im/run-waterfall): 1321ms
+* non-reusable setImmediate: 418ms
+* [async.waterfall](https://github.com/caolan/async#waterfall): 1174ms
+* [run-waterfall](http://npm.im/run-waterfall): 1432ms
 * [insync.wasterfall](https://www.npmjs.com/package/insync#waterfall):
-  2044ms
+  1174ms
 * [neo-async.wasterfall](http://suguru03.github.io/neo-async/doc/async.waterfall.html):
-  600ms
-* [waterfallize](http://npm.im/waterfallize): 907ms
-* `fastfall`: 585ms
-* `fastfall` compiled: 603ms
+  469ms
+* [waterfallize](http://npm.im/waterfallize): 749ms
+* `fastfall`: 460ms
+* `fastfall` compiled: 461ms
 
-These benchmarks where taken via `bench.js` on iojs 2.2.1, on a MacBook
-Pro Retina 2014, on battery, on a plane to London.
+These benchmarks where taken via `bench.js` on node 4.2.2, on a MacBook
+Pro Retina 2014 (i7, 16GB of RAM).
 
 If you need zero-overhead series function call, check out
 [fastseries](http://npm.im/fastseries), for parallel calls check out

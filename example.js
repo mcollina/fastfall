@@ -14,7 +14,7 @@ fall([
   function c (a, b, cb) {
     console.log('called c with:', a, b)
     cb(null, 'a', 'b', 'c')
-  }],
-  function result (err, a, b, c) {
-    console.log('result arguments', err, a, b, c)
-  })
+  }
+], function result (err, a, b, c) {
+  console.log('result arguments', err, a, b, c)
+})
