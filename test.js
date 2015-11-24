@@ -4,7 +4,7 @@ var test = require('tape')
 var fastfall = require('./')
 
 test('basically works', function (t) {
-  t.plan(7)
+  t.plan(22)
 
   var fall = fastfall()
 
@@ -20,12 +20,36 @@ test('basically works', function (t) {
       t.equal(a, 'a', 'third function 1st arg matches')
       t.equal(b, 'b', 'third function 2nd arg matches')
       cb(null, 'a', 'b', 'c')
+    },
+    function d (a, b, c, cb) {
+      t.equal(a, 'a', 'fourth function 1st arg matches')
+      t.equal(b, 'b', 'fourth function 2nd arg matches')
+      t.equal(c, 'c', 'fourth function 3rd arg matches')
+      cb(null, 'a', 'b', 'c', 'd')
+    },
+    function e (a, b, c, d, cb) {
+      t.equal(a, 'a', 'fifth function 1st arg matches')
+      t.equal(b, 'b', 'fifth function 2nd arg matches')
+      t.equal(c, 'c', 'fifth function 3rd arg matches')
+      t.equal(d, 'd', 'fifth function 4th arg matches')
+      cb(null, 'a', 'b', 'c', 'd', 'e')
+    },
+    function f (a, b, c, d, e, cb) {
+      t.equal(a, 'a', 'sixth function 1st arg matches')
+      t.equal(b, 'b', 'sixth function 2nd arg matches')
+      t.equal(c, 'c', 'sixth function 3rd arg matches')
+      t.equal(d, 'd', 'sixth function 4th arg matches')
+      t.equal(e, 'e', 'sixth function 5th arg matches')
+      cb(null, 'a', 'b', 'c', 'd', 'e', 'f')
     }
-  ], function result (err, a, b, c) {
+  ], function result (err, a, b, c, d, e, f) {
     t.error(err, 'no error')
     t.equal(a, 'a', 'result function 2nd arg matches')
     t.equal(b, 'b', 'result function 3rd arg matches')
     t.equal(c, 'c', 'result function 4th arg matches')
+    t.equal(d, 'd', 'result function 5th arg matches')
+    t.equal(e, 'e', 'result function 6th arg matches')
+    t.equal(f, 'f', 'result function 7th arg matches')
   })
 })
 
