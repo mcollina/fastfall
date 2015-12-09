@@ -1,3 +1,5 @@
+'use strict'
+
 var max = 100000
 var async = require('async')
 var insync = require('insync')
@@ -66,10 +68,10 @@ function benchNeoAsync (done) {
 var compiled = require('./')(toCall)
 
 var run = bench([
+  benchFastFall,
   benchAsyncWaterfall,
   benchInsync,
   benchNeoAsync,
-  benchFastFall,
   benchRunWaterFall,
   benchSetImmediate,
   benchWaterfallize,
