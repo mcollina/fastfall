@@ -72,20 +72,55 @@ function Holder () {
       return that.callback.call(that.context, arguments[0])
     }
 
-    var args = []
-    var i = 0
+    var len = arguments.length
+    var i
+    var args
+    var func
 
     if (that.count < that.list.length) {
-      for (i = 1; i < arguments.length; i++) {
-        args[i - 1] = arguments[i]
+      func = that.list[that.count++]
+      switch (len) {
+        case 0:
+        case 1:
+          return func.call(that.context, work)
+        case 2:
+          return func.call(that.context, arguments[1], work)
+        case 3:
+          return func.call(that.context, arguments[1], arguments[2], work)
+        case 4:
+          return func.call(that.context, arguments[1], arguments[2], arguments[3], work)
+        default:
+          args = new Array(len)
+          for (i = 1; i < len; i++) {
+            args[i - 1] = arguments[i]
+          }
+          args[len - 1] = work
+          func.apply(that.context, args)
       }
-      args[args.length] = work
-      that.list[that.count++].apply(that.context, args)
     } else {
-      for (i = 0; i < arguments.length; i++) {
-        args[i] = arguments[i]
+      switch (len) {
+        case 0:
+          that.callback.call(that.context)
+          break
+        case 1:
+          that.callback.call(that.context, arguments[0])
+          break
+        case 2:
+          that.callback.call(that.context, arguments[0], arguments[1])
+          break
+        case 3:
+          that.callback.call(that.context, arguments[0], arguments[1], arguments[2])
+          break
+        case 4:
+          that.callback.call(that.context, arguments[0], arguments[1], arguments[2], arguments[3])
+          break
+        default:
+          args = new Array(len)
+          for (i = 0; i < len; i++) {
+            args[i] = arguments[i]
+          }
+          that.callback.apply(that.context, args)
       }
-      that.callback.apply(that.context, args)
       that.context = undefined
       that.list = empty
       that.count = 0
