@@ -63,7 +63,7 @@ function fastfall (context, template) {
     current.callback = arguments[i] || noop
     current.callFunc = callThat
 
-    current.work.apply(null, args)
+    justCall(null, current.work, args)
   }
 }
 

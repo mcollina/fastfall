@@ -6,15 +6,16 @@ call your callbacks in a waterfall, without overhead
 Benchmark for doing 3 calls `setImmediate` 100 thousands times:
 
 * non-reusable setImmediate: 418ms
-* [async.waterfall](https://github.com/caolan/async#waterfall): 1174ms
+* [async.waterfall](https://github.com/caolan/async#waterfall): 1234ms
 * [run-waterfall](http://npm.im/run-waterfall): 1432ms
 * [insync.wasterfall](https://www.npmjs.com/package/insync#waterfall):
-  1174ms
+  1628ms
 * [neo-async.wasterfall](http://suguru03.github.io/neo-async/doc/async.waterfall.html):
-  469ms
+  482ms
 * [waterfallize](http://npm.im/waterfallize): 749ms
-* `fastfall`: 460ms
-* `fastfall` compiled: 461ms
+* `fastfall`: 452ms
+* `fastfall` compiled: 449ms
+
 
 These benchmarks where taken via `bench.js` on node 4.2.2, on a MacBook
 Pro Retina 2014 (i7, 16GB of RAM).
@@ -60,22 +61,27 @@ You can also set `this` when you create a fall:
 var that = { hello: 'world' }
 var fall = require('fastfall')(that)
 
-fall([
-  function a (cb) {
-    console.log(this)
-    console.log('called a')
-    cb(null, 'a')
-  },
-  function b (a, cb) {
-    console.log('called b with:', a)
-    cb(null, 'a', 'b')
-  },
-  function c (a, b, cb) {
-    console.log('called c with:', a, b)
-    cb(null, 'a', 'b', 'c')
-  }], function result (err, a, b, c) {
-    console.log('result arguments', arguments)
-  })
+fall([a, b, c], result)
+
+function a (cb) {
+  console.log(this)
+  console.log('called a')
+  cb(null, 'a')
+}
+
+function b (a, cb) {
+  console.log('called b with:', a)
+  cb(null, 'a', 'b')
+}
+
+function c (a, b, cb) {
+  console.log('called c with:', a, b)
+  cb(null, 'a', 'b', 'c')
+}
+
+function result (err, a, b, c) {
+  console.log('result arguments', arguments)
+}
 ```
 
 You can also set `this` when you run a task:
@@ -84,22 +90,29 @@ You can also set `this` when you run a task:
 var that = { hello: 'world' }
 var fall = require('fastfall')()
 
-fall(that, [
-  function a (cb) {
-    console.log(this)
-    console.log('called a')
-    cb(null, 'a')
-  },
-  function b (a, cb) {
-    console.log('called b with:', a)
-    cb(null, 'a', 'b')
-  },
-  function c (a, b, cb) {
-    console.log('called c with:', a, b)
-    cb(null, 'a', 'b', 'c')
-  }], function result (err, a, b, c) {
-    console.log('result arguments', arguments)
-  })
+fall(new State('world'), [
+  a, b, c,
+], console.log)
+
+function State (value) {
+  this.value = value
+}
+
+function a (cb) {
+  console.log(this.value)
+  console.log('called a')
+  cb(null, 'a')
+}
+
+function b (a, cb) {
+  console.log('called b with:', a)
+  cb(null, 'a', 'b')
+}
+
+function c (a, b, cb) {
+  console.log('called c with:', a, b)
+  cb(null, 'a', 'b', 'c')
+}
 ```
 
 ### Compile a waterfall
