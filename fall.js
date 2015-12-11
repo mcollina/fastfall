@@ -40,19 +40,37 @@ function fastfall (context, template) {
 
     current.list = template
 
-    var args = new Array(arguments.length)
+    var args
     var i
-
-    args[0] = null // first arg is the error
-
-    for (i = 0; i < arguments.length - 1; i++) {
-      args[i + 1] = arguments[i]
-    }
+    var len = arguments.length - 1
 
     current.context = this || context
-    current.callback = arguments[i] || noop
+    current.callback = arguments[len] || noop
 
-    justCall(null, current.work, args)
+    switch (len) {
+      case 0:
+        current.work()
+        break
+      case 1:
+        current.work(null, arguments[0])
+        break
+      case 2:
+        current.work(null, arguments[0], arguments[1])
+        break
+      case 3:
+        current.work(null, arguments[0], arguments[1], arguments[2])
+        break
+      case 4:
+        current.work(null, arguments[0], arguments[1], arguments[2], arguments[3])
+        break
+      default:
+        args = new Array(len + 1)
+        args[0] = null
+        for (i = 0; i < len; i++) {
+          args[i + 1] = arguments[i]
+        }
+        current.work.apply(null, args)
+    }
   }
 }
 

@@ -5,16 +5,16 @@ call your callbacks in a waterfall, without overhead
 
 Benchmark for doing 3 calls `setImmediate` 100 thousands times:
 
-* non-reusable setImmediate: 418ms
-* [async.waterfall](https://github.com/caolan/async#waterfall): 1234ms
+* non-reusable setImmediate: 407ms
+* [async.waterfall](https://github.com/caolan/async#waterfall): 1203ms
 * [run-waterfall](http://npm.im/run-waterfall): 1432ms
 * [insync.wasterfall](https://www.npmjs.com/package/insync#waterfall):
-  1628ms
+  1570ms
 * [neo-async.wasterfall](http://suguru03.github.io/neo-async/doc/async.waterfall.html):
-  482ms
-* [waterfallize](http://npm.im/waterfallize): 749ms
-* `fastfall`: 452ms
-* `fastfall` compiled: 449ms
+  445ms
+* [waterfallize](http://npm.im/waterfallize): 757ms
+* `fastfall`: 432ms
+* `fastfall` compiled: 428ms
 
 
 These benchmarks where taken via `bench.js` on node 4.2.2, on a MacBook
