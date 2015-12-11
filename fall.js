@@ -27,20 +27,10 @@ function fastfall (context, template) {
       current.callback = arguments[1] || noop
     }
 
-    if (current.context) {
-      current.callFunc = callThat
-    } else {
-      current.callFunc = justCall
-    }
-
     current.work()
   }
 
   function release (holder) {
-    holder.context = undefined
-    holder.list = empty
-    holder.count = 0
-    holder.callback = noop
     queue.release(holder)
   }
 
@@ -61,7 +51,6 @@ function fastfall (context, template) {
 
     current.context = this || context
     current.callback = arguments[i] || noop
-    current.callFunc = callThat
 
     justCall(null, current.work, args)
   }
@@ -75,64 +64,68 @@ function Holder () {
   this.count = 0
   this.context = undefined
   this.release = noop
-  this.callFunc = noop
 
   var that = this
 
   this.work = function work () {
+    if (arguments.length > 0 && arguments[0]) {
+      return that.callback.call(that.context, arguments[0])
+    }
+
     var len = arguments.length
     var i
-    var func
     var args
-    if (arguments.length > 0 && arguments[0]) {
-      that.callback.call(that.context, arguments[0])
-    } else if (that.count < that.list.length) {
-      len = len || 1
-      args = new Array(len)
+    var func
+
+    if (that.count < that.list.length) {
       func = that.list[that.count++]
-      for (i = 1; i < len; i++) {
-        args[i - 1] = arguments[i]
+      switch (len) {
+        case 0:
+        case 1:
+          return func.call(that.context, work)
+        case 2:
+          return func.call(that.context, arguments[1], work)
+        case 3:
+          return func.call(that.context, arguments[1], arguments[2], work)
+        case 4:
+          return func.call(that.context, arguments[1], arguments[2], arguments[3], work)
+        default:
+          args = new Array(len)
+          for (i = 1; i < len; i++) {
+            args[i - 1] = arguments[i]
+          }
+          args[len - 1] = work
+          func.apply(that.context, args)
       }
-      args[len - 1] = that.work
-      that.callFunc(that, func, args)
     } else {
-      args = new Array(len)
-      for (i = 0; i < len; i++) {
-        args[i] = arguments[i]
+      switch (len) {
+        case 0:
+          that.callback.call(that.context)
+          break
+        case 1:
+          that.callback.call(that.context, arguments[0])
+          break
+        case 2:
+          that.callback.call(that.context, arguments[0], arguments[1])
+          break
+        case 3:
+          that.callback.call(that.context, arguments[0], arguments[1], arguments[2])
+          break
+        case 4:
+          that.callback.call(that.context, arguments[0], arguments[1], arguments[2], arguments[3])
+          break
+        default:
+          args = new Array(len)
+          for (i = 0; i < len; i++) {
+            args[i] = arguments[i]
+          }
+          that.callback.apply(that.context, args)
       }
-      that.callFunc(that, that.callback, args)
+      that.context = undefined
+      that.list = empty
+      that.count = 0
       that.release(that)
     }
-  }
-}
-
-function callThat (that, func, args) {
-  switch (args.length) {
-    case 1:
-      return func.call(that.context, args[0])
-    case 2:
-      return func.call(that.context, args[0], args[1])
-    case 3:
-      return func.call(that.context, args[0], args[1], args[2])
-    case 4:
-      return func.call(that.context, args[0], args[1], args[2], args[3])
-    default:
-      func.apply(that.context, args)
-  }
-}
-
-function justCall (that, func, args) {
-  switch (args.length) {
-    case 1:
-      return func(args[0])
-    case 2:
-      return func(args[0], args[1])
-    case 3:
-      return func(args[0], args[1], args[2])
-    case 4:
-      return func(args[0], args[1], args[2], args[3])
-    default:
-      func.apply(null, args)
   }
 }
 
