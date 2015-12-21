@@ -28,6 +28,9 @@
     "url": "https://github.com/mcollina/fastfall/issues"
   },
   "homepage": "https://github.com/mcollina/fastfall#readme",
+  "engines": {
+    "node": ">=0.10.0"
+  },
   "devDependencies": {
     "async": "^1.0.0",
     "fastbench": "^1.0.0",
