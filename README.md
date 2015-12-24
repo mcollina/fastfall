@@ -1,7 +1,11 @@
-# fastfall&nbsp;&nbsp;[![Build Status](https://travis-ci.org/mcollina/fastfall.svg?branch=master)](https://travis-ci.org/mcollina/fastfall)
+# fastfall
 
+[![npm version][npm-badge]][npm-url]
+[![Build Status][travis-badge]][travis-url]
+[![Coverage Status][coveralls-badge]][coveralls-url]
+[![Dependency Status][david-badge]][david-url]
 
-call your callbacks in a waterfall, without overhead
+## call your callbacks in a waterfall, without overhead
 
 Benchmark for doing 3 calls `setImmediate` 100 thousands times:
 
@@ -216,3 +220,13 @@ function, too. Calls `done` when it has finished.
 ## License
 
 MIT
+
+
+[npm-badge]: https://badge.fury.io/js/fastfall.svg
+[npm-url]: https://badge.fury.io/js/fastfall
+[travis-badge]: https://api.travis-ci.org/mcollina/fastfall.svg
+[travis-url]: https://travis-ci.org/mcollina/fastfall
+[coveralls-badge]:https://coveralls.io/repos/mcollina/fastfall/badge.svg?branch=master&service=github
+[coveralls-url]: https://coveralls.io/github/mcollina/fastfall?branch=master
+[david-badge]: https://david-dm.org/mcollina/fastfall.svg
+[david-url]: https://david-dm.org/mcollina/fastfall
