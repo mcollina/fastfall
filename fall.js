@@ -2,14 +2,13 @@
 
 var reusify = require('reusify')
 var empty = []
+var queue = reusify(Holder)
 
 function fastfall (context, template) {
   if (Array.isArray(context)) {
     template = context
     context = null
   }
-
-  var queue = reusify(Holder)
 
   return template ? compiled : fall
 
@@ -28,10 +27,6 @@ function fastfall (context, template) {
     }
 
     current.work()
-  }
-
-  function release (holder) {
-    queue.release(holder)
   }
 
   function compiled () {
@@ -72,6 +67,10 @@ function fastfall (context, template) {
         current.work.apply(null, args)
     }
   }
+}
+
+function release (holder) {
+  queue.release(holder)
 }
 
 function noop () {}
